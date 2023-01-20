@@ -28,7 +28,7 @@ TrelloPowerUp.initialize({
   'card-buttons': function (t, options) {
     return [{
       icon: GLITCH_ICON, // don't use a colored icon here
-      text: 'DELETE BUTTON',
+      text: 'DELETE',
       callback: cardButtonCallback
     }];
   }
