@@ -3,46 +3,28 @@ var Promise = TrelloPowerUp.Promise;
 var GLITCH_ICON = './images/glitch.svg';
 var WHITE_ICON = './images/icon-white.svg';
 var GRAY_ICON = './images/icon-gray.svg';
+const token = "ATTA558f6862e6d9c05c87f98baf8ffe332b4b127b3acc3637deb0d4dd0b75c770b4FE538DD2";
+const key = "59520c948815839cbeaa20e31374e5ba";
 
 function callIt(cardId) {
-  fetch(`https://api.trello.com/1/actions/${cardId}?key=APIKey&token=59520c948815839cbeaa20e31374e5ba`).then((response) => console.log(response.body));
+  console.log(cardId);
+  fetch(`https://api.trello.com/1/actions/${cardId}?key=${key}&token=${token}`, {
+    method: 'DELETE'
+  }).then(response => {
+    console.log(
+      `Response: ${response.status} ${response.statusText}`
+    );
+    return response.text();
+  })
+    .then(text => console.log(text))
+    .catch(err => console.error(err));
 }
 
 var cardButtonCallback = function (t) {
-
-  var items = ['acad', 'arch', 'badl', 'crla', 'grca', 'yell', 'yose'].map(function (parkCode) {
-    var urlForCode = 'http://www.nps.gov/' + parkCode + '/';
-    var nameForCode = '🏞 ' + parkCode.toUpperCase();
-    return {
-      text: nameForCode,
-      url: urlForCode,
-      callback: function (t) {
-        console.log(t);
-        // callIt(t.get("card"));
-        if (t.memberCanWriteToModel('card')) {
-          return t.attach({ url: urlForCode, name: nameForCode })
-            .then(function () {
-              // once that has completed we should tidy up and close the popup
-              return t.closePopup();
-            });
-        } else {
-          console.log("Oh no! You don't have permission to add attachments to this card.")
-          return t.closePopup();
-        };
-      }
-    };
+  t.card('id').then(function (card) {
+    callIt(card.id);
   });
-
-  return t.popup({
-    title: 'Popup Search Example',
-    items: items, // Trello will search client-side based on the text property of the items
-    search: {
-      count: 5, // How many items to display at a time
-      placeholder: 'Search National Parks',
-      empty: 'No parks found'
-    }
-  });
-
+  console.log("Done it");
 };
 
 TrelloPowerUp.initialize({
