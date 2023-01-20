@@ -1,6 +1,5 @@
 var Promise = TrelloPowerUp.Promise;
 
-
 var GLITCH_ICON = './images/glitch.svg';
 var WHITE_ICON = './images/icon-white.svg';
 var GRAY_ICON = './images/icon-gray.svg';
@@ -43,24 +42,6 @@ var cardButtonCallback = function(t){
     }
   });
   
-  // in the above case we let Trello do the searching client side
-  // but what if we don't have all the information up front?
-  // no worries, instead of giving Trello an array of `items` you can give it a function instead
-  /*
-  return t.popup({
-    title: 'Popup Async Search',
-    items: function(t, options) {
-      // use options.search which is the search text entered so far
-      // and return a Promise that resolves to an array of items
-      // similar to the items you provided in the client side version above
-    },
-    search: {
-      placeholder: 'Start typing your search',
-      empty: 'Huh, nothing there',
-      searching: 'Scouring the internet...'
-    }
-  });
-  */
 };
 
 TrelloPowerUp.initialize({
@@ -69,7 +50,7 @@ TrelloPowerUp.initialize({
     return [{
       // usually you will provide a callback function to be run on button click
       // we recommend that you use a popup on click generally
-      icon: GRAY_ICON, // don't use a colored icon here
+      icon: GLITCH_ICON, // don't use a colored icon here
       text: 'Open Popup',
       callback: cardButtonCallback
     }, {
@@ -80,28 +61,6 @@ TrelloPowerUp.initialize({
       target: 'Trello Developer Site' // optional target for above url
     }];
   },
-  'show-authorization': function(t, options){
-    // Returns what to do when a user clicks the 'Authorize Account' link from the Power-Up gear icon
-    // which shows when 'authorization-status' returns { authorized: false }.
-    
-    // If we want to ask the user to authorize our Power-Up to make full use of the Trello API
-    // you'll need to add your API from trello.com/app-key below:
-    let trelloAPIKey = '59520c948815839cbeaa20e31374e5ba';
-    // This key will be used to generate a token that you can pass along with the API key to Trello's
-    // RESTful API. Using the key/token pair, you can make requests on behalf of the authorized user.
-    
-    // In this case we'll open a popup to kick off the authorization flow.
-    if (trelloAPIKey) {
-      return t.popup({
-        title: 'My Auth Popup',
-        args: { apiKey: trelloAPIKey }, // Pass in API key to the iframe
-        url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
-        height: 140,
-      });
-    } else {
-      console.log("🙈 Looks like you need to add your API key to the project!");
-    }
-  }
 });
 
 console.log('Loaded by: ' + document.referrer);
