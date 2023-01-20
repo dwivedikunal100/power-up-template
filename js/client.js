@@ -6,7 +6,6 @@ var GRAY_ICON = './images/icon-gray.svg';
 
 
 var cardButtonCallback = function (t) {
-  t.getRestApi().isAuthorized().then(function(isA){console.log(isA);});
 
   var items = ['acad', 'arch', 'badl', 'crla', 'grca', 'yell', 'yose'].map(function (parkCode) {
     var urlForCode = 'http://www.nps.gov/' + parkCode + '/';
@@ -15,8 +14,6 @@ var cardButtonCallback = function (t) {
       text: nameForCode,
       url: urlForCode,
       callback: function (t) {
-        // In this case we want to attach that park to the card as an attachment
-        // but first let's ensure that the user can write on this model
         if (t.memberCanWriteToModel('card')) {
           return t.attach({ url: urlForCode, name: nameForCode })
             .then(function () {
@@ -25,14 +22,12 @@ var cardButtonCallback = function (t) {
             });
         } else {
           console.log("Oh no! You don't have permission to add attachments to this card.")
-          return t.closePopup(); // We're just going to close the popup for now.
+          return t.closePopup(); 
         };
       }
     };
   });
 
-  // we could provide a standard iframe popup, but in this case we
-  // will let Trello do the heavy lifting
   return t.popup({
     title: 'Popup Search Example',
     items: items, // Trello will search client-side based on the text property of the items
@@ -46,11 +41,8 @@ var cardButtonCallback = function (t) {
 };
 
 TrelloPowerUp.initialize({
-
   'card-buttons': function (t, options) {
     return [{
-      // usually you will provide a callback function to be run on button click
-      // we recommend that you use a popup on click generally
       icon: GLITCH_ICON, // don't use a colored icon here
       text: 'Open Popup',
       callback: cardButtonCallback
@@ -62,9 +54,6 @@ TrelloPowerUp.initialize({
       target: 'Trello Developer Site' // optional target for above url
     }];
   }
-}, {
-  appKey: "59520c948815839cbeaa20e31374e5ba",
-  appName: "delete-button"
 });
 
 console.log('Loaded by: ' + document.referrer);
