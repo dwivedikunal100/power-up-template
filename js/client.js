@@ -4,6 +4,9 @@ var GLITCH_ICON = './images/glitch.svg';
 var WHITE_ICON = './images/icon-white.svg';
 var GRAY_ICON = './images/icon-gray.svg';
 
+function callIt(cardId) {
+  fetch(`https://api.trello.com/1/actions/${cardId}?key=APIKey&token=59520c948815839cbeaa20e31374e5ba`).then((response) => console.log(response.body));
+}
 
 var cardButtonCallback = function (t) {
 
@@ -14,6 +17,8 @@ var cardButtonCallback = function (t) {
       text: nameForCode,
       url: urlForCode,
       callback: function (t) {
+        console.log(t);
+        // callIt(t.get("card"));
         if (t.memberCanWriteToModel('card')) {
           return t.attach({ url: urlForCode, name: nameForCode })
             .then(function () {
@@ -22,7 +27,7 @@ var cardButtonCallback = function (t) {
             });
         } else {
           console.log("Oh no! You don't have permission to add attachments to this card.")
-          return t.closePopup(); 
+          return t.closePopup();
         };
       }
     };
