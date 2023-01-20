@@ -6,7 +6,16 @@ var GRAY_ICON = './images/icon-gray.svg';
 
 
 var cardButtonCallback = function(t){
-  
+  t.getRestApi()
+  .isAuthorized()
+  .then(function(authorized) {
+    if (authorized) {
+      console.log("Authorised");
+    } else {
+      console.log("Not Authorised");
+    }
+  });
+
   var items = ['acad', 'arch', 'badl', 'crla', 'grca', 'yell', 'yose'].map(function(parkCode){
     var urlForCode = 'http://www.nps.gov/' + parkCode + '/';
     var nameForCode = '🏞 ' + parkCode.toUpperCase();
@@ -60,7 +69,10 @@ TrelloPowerUp.initialize({
       url: 'https://developers.trello.com',
       target: 'Trello Developer Site' // optional target for above url
     }];
-  },
+  }
+},{
+  appKey:"59520c948815839cbeaa20e31374e5ba",
+  appName: "delete-button"
 });
 
 console.log('Loaded by: ' + document.referrer);
