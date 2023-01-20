@@ -8,7 +8,7 @@ const key = "59520c948815839cbeaa20e31374e5ba";
 
 function callIt(cardId) {
   console.log(cardId);
-  fetch(`https://api.trello.com/1/actions/${cardId}?key=${key}&token=${token}`, {
+  fetch(`https://api.trello.com/1/cards/${cardId}?key=${key}&token=${token}`, {
     method: 'DELETE'
   }).then(response => {
     console.log(
