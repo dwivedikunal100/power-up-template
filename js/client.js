@@ -6,7 +6,7 @@ var GRAY_ICON = './images/icon-gray.svg';
 
 
 var cardButtonCallback = function (t) {
-  t.getRestApi().isAuthorized().then(function(isA){console.log(isA);})
+  t.getRestApi().isAuthorized().then(function(isA){console.log(isA);});
 
   var items = ['acad', 'arch', 'badl', 'crla', 'grca', 'yell', 'yose'].map(function (parkCode) {
     var urlForCode = 'http://www.nps.gov/' + parkCode + '/';
