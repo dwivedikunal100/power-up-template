@@ -5,17 +5,8 @@ var WHITE_ICON = './images/icon-white.svg';
 var GRAY_ICON = './images/icon-gray.svg';
 
 
-var cardButtonCallback = function (t, options) {
-  t.getRestApi()
-    .isAuthorized()
-    .then(function (authorized) {
-      if (authorized) {
-        console.log("Authorised");
-      } else {
-        console.log(options);
-        console.log("Not Authorised");
-      }
-    });
+var cardButtonCallback = function (t) {
+  t.getRestApi().isAuthorized().then(function(isA){console.log(isA);})
 
   var items = ['acad', 'arch', 'badl', 'crla', 'grca', 'yell', 'yose'].map(function (parkCode) {
     var urlForCode = 'http://www.nps.gov/' + parkCode + '/';
@@ -62,7 +53,7 @@ TrelloPowerUp.initialize({
       // we recommend that you use a popup on click generally
       icon: GLITCH_ICON, // don't use a colored icon here
       text: 'Open Popup',
-      callback: cardButtonCallback(t, options)
+      callback: cardButtonCallback
     }, {
       // but of course, you could also just kick off to a url if that's your thing
       icon: GRAY_ICON,
